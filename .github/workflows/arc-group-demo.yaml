@@ -3,7 +3,8 @@ on:
   workflow_dispatch:
 jobs:
   test:
-    runs-on: grp-scale-set2
+    runs-on: 
+      group: grp-scale-set2
     steps:
       - name: Hello world
         run: echo "Hello world"
