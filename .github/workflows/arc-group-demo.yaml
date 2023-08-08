@@ -1,4 +1,4 @@
-name: Test workflow
+name: Test GROUP workflow
 on:
   workflow_dispatch:
 jobs:
