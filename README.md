@@ -42,4 +42,20 @@ helm list -A
 kubectl get pods -n arc-systems
 #  kubectl logs pod/arc-gha-runner-scale-set-controller-755f574df6-bnrq8 -n arc-systems
 
+# Using a GitHub App
+INSTALLATION_NAME="arc-runner-set"
+NAMESPACE="arc-runners"
+GITHUB_CONFIG_URL="https://github.com/gitstua-labs"
+GITHUB_APP_ID="372949"
+GITHUB_APP_INSTALLATION_ID="40496144"
+GITHUB_APP_PRIVATE_KEY="<GITHUB_APP_PRIVATE_KEY>"
+helm install "${INSTALLATION_NAME}" \
+    --namespace "${NAMESPACE}" \
+    --create-namespace \
+    --set githubConfigUrl="${GITHUB_CONFIG_URL}" \
+    --set githubConfigSecret.github_app_id="${GITHUB_APP_ID}" \
+    --set githubConfigSecret.github_app_installation_id="${GITHUB_APP_INSTALLATION_ID}" \
+    --set githubConfigSecret.github_app_private_key="${GITHUB_APP_PRIVATE_KEY}" \
+    oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
+
 ```
