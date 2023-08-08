@@ -48,14 +48,34 @@ NAMESPACE="arc-runners"
 GITHUB_CONFIG_URL="https://github.com/gitstua-labs"
 GITHUB_APP_ID="372949"
 GITHUB_APP_INSTALLATION_ID="40496144"
-GITHUB_APP_PRIVATE_KEY="<GITHUB_APP_PRIVATE_KEY>"
+# GITHUB_APP_PRIVATE_KEY="<GITHUB_APP_PRIVATE_KEY>"
+
+# we can pass the private key to a codespace using a codespace secret
+GITHUB_APP_PRIVATE_KEY=$APP_PRIVATE_KEY
+
+# add first runner scale set
 helm install "${INSTALLATION_NAME}" \
     --namespace "${NAMESPACE}" \
     --create-namespace \
+    --set runnerGroup="default"
     --set githubConfigUrl="${GITHUB_CONFIG_URL}" \
     --set githubConfigSecret.github_app_id="${GITHUB_APP_ID}" \
     --set githubConfigSecret.github_app_installation_id="${GITHUB_APP_INSTALLATION_ID}" \
     --set githubConfigSecret.github_app_private_key="${GITHUB_APP_PRIVATE_KEY}" \
     oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
 
+kubectl get pods -A
+
+# add a second runner scale set to a runner group named grp-scale-set2
+helm install "${INSTALLATION_NAME}2" \
+    --namespace "${NAMESPACE}" \
+    --create-namespace \
+    --set runnerGroup="grp-scale-set2" \
+    --set githubConfigUrl="${GITHUB_CONFIG_URL}" \
+    --set githubConfigSecret.github_app_id="${GITHUB_APP_ID}" \
+    --set githubConfigSecret.github_app_installation_id="${GITHUB_APP_INSTALLATION_ID}" \
+    --set githubConfigSecret.github_app_private_key="${GITHUB_APP_PRIVATE_KEY}" \
+    oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
+
+kubectl get pods -A
 ```
