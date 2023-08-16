@@ -4,8 +4,7 @@ ARC v2 is a new version of the great Actions Runner Controller community project
 
 Learn more in this great [video](https://www.youtube.com/watch?v=_F5ocPrv6io)https://www.youtube.com/watch?v=_F5ocPrv6io
 
-![image](https://github.com/gitstua-labs/ARCv2Demo/assets/25424433/b3e266a2-6b58-4f4d-bf42-a612a0a906bd)
-
+<img width="1179" alt="image" src="https://github.com/gitstua-labs/ARCv2Demo/assets/25424433/39f06e5f-59ee-4893-84c3-f585553d6895">
 
 Link to [preview v2 docs](https://github.com/actions/actions-runner-controller/blob/master/docs/preview/gha-runner-scale-set-controller/README.md)
 
