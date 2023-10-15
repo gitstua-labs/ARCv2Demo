@@ -21,12 +21,15 @@ Also see my Mindmap of ARC v2 https://github.com/gitstua/Mindmaps/blob/main/GitH
 ## Commands to setup cluster
 ```
 minikube -h
-help version
 minikube start -p arc --cpus=4 --memory=8192 --mount-string="/run/udev:/run/udev" --mount
 minikibe status -p arc
+
 # configure the values.yaml file for helm chart for controller https://raw.githubusercontent.com/actions/actions-runner-controller/master/charts/gha-runner-scale-set-controller/values.yaml
 
 # configure the values.yaml file for helm chart for controller SCALESET https://raw.githubusercontent.com/actions/actions-runner-controller/master/charts/gha-runner-scale-set/values.yaml 
+
+# setup some environment variables
+
 
 #install the controller
 helm install arc \
@@ -56,7 +59,7 @@ GITHUB_APP_PRIVATE_KEY=$APP_PRIVATE_KEY
 helm install "${INSTALLATION_NAME}" \
     --namespace "${NAMESPACE}" \
     --create-namespace \
-    --set runnerGroup="default"
+    --set runnerGroup="default" \
     --set githubConfigUrl="${GITHUB_CONFIG_URL}" \
     --set githubConfigSecret.github_app_id="${GITHUB_APP_ID}" \
     --set githubConfigSecret.github_app_installation_id="${GITHUB_APP_INSTALLATION_ID}" \
