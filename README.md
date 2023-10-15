@@ -78,6 +78,8 @@ helm install "${INSTALLATION_NAME}2" \
     --set githubConfigUrl="${GITHUB_CONFIG_URL}" \
     --set githubConfigSecret.github_app_id="${GITHUB_APP_ID}" \
     --set githubConfigSecret.github_app_installation_id="${GITHUB_APP_INSTALLATION_ID}" \
+    --set controllerServiceAccount.namespace="arc-system" \
+    --set controllerServiceAccount.name="arc-gha-runner-scale-set-controller" \
     --set githubConfigSecret.github_app_private_key="${GITHUB_APP_PRIVATE_KEY}" \
     oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
 
