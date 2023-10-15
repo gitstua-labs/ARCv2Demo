@@ -33,7 +33,7 @@ minikibe status -p arc
 
 #install the controller
 helm install arc \
---namespace arc-systems \
+--namespace arc-system \
 --create-namespace \
 --set image.tag="0.4.0" \
 -f ./values-controller.yaml \
@@ -41,7 +41,7 @@ oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-cont
 --version "0.4.0"
 
 helm list -A
-kubectl get pods -n arc-systems
+kubectl get pods -n arc-system
 #  kubectl logs pod/arc-gha-runner-scale-set-controller-755f574df6-bnrq8 -n arc-systems
 
 # Using a GitHub App
@@ -63,6 +63,8 @@ helm install "${INSTALLATION_NAME}" \
     --set githubConfigUrl="${GITHUB_CONFIG_URL}" \
     --set githubConfigSecret.github_app_id="${GITHUB_APP_ID}" \
     --set githubConfigSecret.github_app_installation_id="${GITHUB_APP_INSTALLATION_ID}" \
+    --set controllerServiceAccount.namespace="arc-system" \
+    --set controllerServiceAccount.name="arc-gha-runner-scale-set-controller" \
     --set githubConfigSecret.github_app_private_key="${GITHUB_APP_PRIVATE_KEY}" \
     oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
 
