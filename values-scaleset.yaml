@@ -12,7 +12,8 @@ githubConfigSecret:
   #github_app_private_key: |
 
   ### GitHub PAT Configuration
-  github_token: ""
+  #github_token: ""
+  githubConfigSecret: pre-defined-secret
 ## If you have a pre-define Kubernetes secret in the same namespace the gha-runner-scale-set is going to deploy,
 ## you can also reference it via `githubConfigSecret: pre-defined-secret`.
 ## You need to make sure your predefined secret has all the required secret data set properly.
@@ -40,7 +41,7 @@ githubConfigSecret:
 # maxRunners: 5
 
 ## minRunners is the min number of runners the auto scaling runner set will scale down to.
-# minRunners: 0
+minRunners: 1
 
 # runnerGroup: "default"
 
