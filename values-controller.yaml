@@ -1,7 +1,7 @@
 # Default values for gha-runner-scale-set-controller.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-labels: {}
+labels: {gha-rs-controller}
 
 # leaderElection will be enabled when replicaCount>1,
 # So, only one replica will in charge of reconciliation at a given time

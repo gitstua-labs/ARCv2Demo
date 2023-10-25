@@ -10,78 +10,19 @@ Link to [preview v2 docs](https://github.com/actions/actions-runner-controller/b
 
 Also see my Mindmap of ARC v2 https://github.com/gitstua/Mindmaps/blob/main/GitHub-ARC-v2-mindmap.md
 
-## you can create an ARC v2 cluster inside GitHub Codespaces to get familiar
+## you can create an ARC v2 cluster inside GitHub Codespaces to get familiar with the steps
 1. Create a new Codespace which has Docker, Helm2, KubeCtl already installed
 2. Create a Kubernetes cluster
-3. Generate either a PAT token or GitHub App credentials
+3. Generate either a personal access token (classic) or GitHub App credentials
 4. Generate a config file for the Controller
 5. Generate a config file for the Controller ScaleSet - this is the listener that creates the ephemeral runners
 
+# Using this repo
+1. Create a PAT TOKEN and give this the [correct permissions](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller/authenticating-to-the-github-api#authenticating-arc-with-a-personal-access-token-classic)
+2. Ensure you add the PAT TOKEN as a codespace secret for the repo 
+2. Edit the script `./deploy-controller.sh` and set the `GITHUB_CONFIG_URL`
+3. Use the script `./deploy-controller.sh` to run the setup of a controller and 2 scale sets
 
-## Commands to setup cluster
-```
-minikube -h
-minikube start -p arc --cpus=4 --memory=8192 --mount-string="/run/udev:/run/udev" --mount
-minikibe status -p arc
-
-# configure the values.yaml file for helm chart for controller https://raw.githubusercontent.com/actions/actions-runner-controller/master/charts/gha-runner-scale-set-controller/values.yaml
-
-# configure the values.yaml file for helm chart for controller SCALESET https://raw.githubusercontent.com/actions/actions-runner-controller/master/charts/gha-runner-scale-set/values.yaml 
-
-# setup some environment variables
+To reset the minikube and allow re-deployment you can use `./script/reset-demo.sh`
 
 
-#install the controller
-helm install arc \
---namespace arc-system \
---create-namespace \
---set image.tag="0.4.0" \
--f ./values-controller.yaml \
-oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller \
---version "0.4.0"
-
-helm list -A
-kubectl get pods -n arc-system
-#  kubectl logs pod/arc-gha-runner-scale-set-controller-755f574df6-bnrq8 -n arc-systems
-
-# Using a GitHub App
-INSTALLATION_NAME="arc-runner-set"
-NAMESPACE="arc-runners"
-GITHUB_CONFIG_URL="https://github.com/gitstua-labs"
-GITHUB_APP_ID="372949"
-GITHUB_APP_INSTALLATION_ID="40496144"
-# GITHUB_APP_PRIVATE_KEY="<GITHUB_APP_PRIVATE_KEY>"
-
-# we can pass the private key to a codespace using a codespace secret
-GITHUB_APP_PRIVATE_KEY=$APP_PRIVATE_KEY
-
-# add first runner scale set
-helm install "${INSTALLATION_NAME}" \
-    --namespace "${NAMESPACE}" \
-    --create-namespace \
-    --set runnerGroup="default" \
-    --set githubConfigUrl="${GITHUB_CONFIG_URL}" \
-    --set githubConfigSecret.github_app_id="${GITHUB_APP_ID}" \
-    --set githubConfigSecret.github_app_installation_id="${GITHUB_APP_INSTALLATION_ID}" \
-    --set controllerServiceAccount.namespace="arc-system" \
-    --set controllerServiceAccount.name="arc-gha-runner-scale-set-controller" \
-    --set githubConfigSecret.github_app_private_key="${GITHUB_APP_PRIVATE_KEY}" \
-    oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
-
-kubectl get pods -A
-
-# add a second runner scale set to a runner group named grp-scale-set2
-helm install "${INSTALLATION_NAME}2" \
-    --namespace "${NAMESPACE}" \
-    --create-namespace \
-    --set runnerGroup="grp-scale-set2" \
-    --set githubConfigUrl="${GITHUB_CONFIG_URL}" \
-    --set githubConfigSecret.github_app_id="${GITHUB_APP_ID}" \
-    --set githubConfigSecret.github_app_installation_id="${GITHUB_APP_INSTALLATION_ID}" \
-    --set controllerServiceAccount.namespace="arc-system" \
-    --set controllerServiceAccount.name="arc-gha-runner-scale-set-controller" \
-    --set githubConfigSecret.github_app_private_key="${GITHUB_APP_PRIVATE_KEY}" \
-    oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
-
-kubectl get pods -A
-```
