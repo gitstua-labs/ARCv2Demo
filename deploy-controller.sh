@@ -11,14 +11,15 @@ minikube status -p arc
 echo creating namespace $SYSTEM_NAMESPACE
 kubectl create namespace $SYSTEM_NAMESPACE
 
-kubectl create secret generic pre-defined-secret \
-   --namespace=arc-system \
-   --from-literal=github_token=$WITH_PAT_TOKEN
+# kubectl create secret generic pre-defined-secret \
+#    --namespace=arc-system \
+#    --from-literal=github_token=$WITH_PAT_TOKEN
 
 echo installing Controller
 helm install arc \
     --namespace $SYSTEM_NAMESPACE \
     --set image.tag="0.4.0" \
+    --set githubConfigSecret.github_token="$WITH_PAT_TOKEN" \
     -f ./values-controller.yaml \
     oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller \
     --version "0.4.0"
@@ -56,8 +57,9 @@ helm install "${INSTALLATION_NAME}1" \
     --set image.tag="0.4.0" \
     --set runnerGroup="grp-scale-set1" \
     --set githubConfigUrl="${GITHUB_CONFIG_URL}" \
+    --set githubConfigSecret.github_token="$WITH_PAT_TOKEN" \
     -f ./values-scaleset.yaml \
-    oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller \
+    oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set \
     --version "0.4.0"
 
 helm install "${INSTALLATION_NAME}2" \
@@ -65,8 +67,9 @@ helm install "${INSTALLATION_NAME}2" \
     --set image.tag="0.4.0" \
     --set runnerGroup="grp-scale-set2" \
     --set githubConfigUrl="${GITHUB_CONFIG_URL}" \
+    --set githubConfigSecret.github_token="$WITH_PAT_TOKEN" \
     -f ./values-scaleset.yaml \
-    oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller \
+    oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set \
     --version "0.4.0"
 
 
