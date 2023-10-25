@@ -1,5 +1,5 @@
 export SYSTEM_NAMESPACE=arc-system
-export INSTALLATION_NAME=$(hostname)
+export INSTALLATION_NAME=arc-runner-set
 export RUNNER_NAMESPACE="arc-runner"
 export GITHUB_CONFIG_URL="https://github.com/gitstua-labs"
 
@@ -10,10 +10,6 @@ minikube status -p arc
 
 echo creating namespace $SYSTEM_NAMESPACE
 kubectl create namespace $SYSTEM_NAMESPACE
-
-# kubectl create secret generic pre-defined-secret \
-#    --namespace=arc-system \
-#    --from-literal=github_token=$WITH_PAT_TOKEN
 
 echo installing Controller
 helm install arc \
@@ -71,17 +67,3 @@ helm install "${INSTALLATION_NAME}2" \
     -f ./values-scaleset.yaml \
     oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set \
     --version "0.4.0"
-
-
-# # add a second runner scale set to a runner group named grp-scale-set2
-# helm install "${INSTALLATION_NAME}2" \
-#     --namespace "${NAMESPACE}" \
-#     --create-namespace \
-#     --set runnerGroup="grp-scale-set2" \
-#     --set githubConfigUrl="${GITHUB_CONFIG_URL}" \
-#     --set githubConfigSecret.github_app_id="${GITHUB_APP_ID}" \
-#     --set githubConfigSecret.github_app_installation_id="${GITHUB_APP_INSTALLATION_ID}" \
-#     --set controllerServiceAccount.namespace="arc-system" \
-#     --set controllerServiceAccount.name="arc-gha-runner-scale-set-controller" \
-#     --set githubConfigSecret.github_app_private_key="${GITHUB_APP_PRIVATE_KEY}" \
-#     oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
