@@ -6,7 +6,7 @@ Learn more in this great [video](https://www.youtube.com/watch?v=_F5ocPrv6io) fr
 
 <img width="1179" alt="image" src="https://github.com/gitstua-labs/ARCv2Demo/assets/25424433/39f06e5f-59ee-4893-84c3-f585553d6895">
 
-Link to [preview v2 docs](https://github.com/actions/actions-runner-controller/blob/master/docs/preview/gha-runner-scale-set-controller/README.md)
+Link to [v2 ScaleSet docs](https://github.com/actions/actions-runner-controller/tree/master/docs/gha-runner-scale-set-controller)
 
 Also see my Mindmap of ARC v2 https://github.com/gitstua/Mindmaps/blob/main/GitHub-ARC-v2-mindmap.md
 
